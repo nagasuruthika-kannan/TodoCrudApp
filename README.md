@@ -1,4 +1,5 @@
-# REST API using Node.js, Express, Sequelize and MySQL + JWT Authentication
+# TODO APP
+## REST API using Node.js, Express, Sequelize and MySQL + JWT Authentication
     
 ## Project setup
 ```
