@@ -1,4 +1,4 @@
-# Todo CRUD App
+# REST API using Node.js, Express, Sequelize and MySQL + JWT Authentication
     
 ## Project setup
 ```
