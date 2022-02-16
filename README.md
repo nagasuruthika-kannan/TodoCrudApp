@@ -14,9 +14,13 @@ nodemon server.js
 
 <img src="./screenshots/createuser.png">
 
+
+
 ### SQL table storing todo's
 
 <img src="./screenshots/sqltable.png">
+
+
 
 ### Swagger documentation at /api-docs
 
