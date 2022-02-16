@@ -7,7 +7,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     },
     due_at: {
-      type: DataTypes.DATEONLY            
+      type: DataTypes.DATEONLY
     },
   });
 

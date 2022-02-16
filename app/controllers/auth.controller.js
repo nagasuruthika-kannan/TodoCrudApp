@@ -15,44 +15,42 @@ exports.createuser = (req, res) => {
 
   })
     .then(user => {
-        let token = jwt.sign({ id: user.id }, config.secret, {
-            expiresIn: 86400 // 24 hours
-          });
-          res.status(200).send({
-            id: user.id,
-            username: user.username,
-            email: user.email,
-            accessToken: token
-          });
+      let token = jwt.sign({ id: user.id }, config.secret, {});
+      res.status(200).send({
+        id: user.id,
+        username: user.username,
+        email: user.email,
+        accessToken: token
+      });
     })
     .catch(err => {
       res.status(500).send({ message: err.message });
     });
 };
 
- // delete user from database
+// delete user from database
 exports.deleteuser = (req, res) => {
-    const username = req.params.username
-    const email= req.params.email
-  
+  const username = req.params.username
+  const email = req.params.email
 
-User.destroy({
-      where: { username: username, email:email }
-    })
-      .then(num => {
-        if (num == 1) {
-          res.send({
-            message: "User was deleted successfully!"
-          });
-        } else {
-          res.send({
-            message: `Cannot delete User with username=${username}. Maybe user was not found!`
-          });
-        }
-      })
-      .catch(err => {
-        res.status(500).send({
-          message: "Could not delete user"
+
+  User.destroy({
+    where: { username: username, email: email }
+  })
+    .then(num => {
+      if (num == 1) {
+        res.send({
+          message: "User was deleted successfully!"
         });
+      } else {
+        res.send({
+          message: `Cannot delete User with username=${username}. Maybe user was not found!`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete user"
       });
-  };
+    });
+};

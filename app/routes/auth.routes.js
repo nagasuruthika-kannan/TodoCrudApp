@@ -1,8 +1,8 @@
 const controller = require("../controllers/auth.controller");
 const auth = require("../middleware/auth");
 
-module.exports = function(app) {
-  app.use(function(req, res, next) {
+module.exports = function (app) {
+  app.use(function (req, res, next) {
     res.header(
       "Access-Control-Allow-Headers",
       "x-access-token, Origin, Content-Type, Accept"
@@ -11,10 +11,10 @@ module.exports = function(app) {
     next();
   });
   //create user
-  app.post("/api/auth/createuser",controller.createuser);
+  app.post("/api/auth/createuser", controller.createuser);
 
   //delete user
-  app.delete("/api/auth/deleteuser",auth, controller.deleteuser)
+  app.delete("/api/auth/deleteuser", auth, controller.deleteuser)
 
 
 };

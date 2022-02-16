@@ -7,7 +7,7 @@ const Todo = db.todo;
 
 //Create and Save new Todo
 
-exports.createTodo = (req,res) => {
+exports.createTodo = (req, res) => {
   Todo.create({
     title: req.body.title,
     description: req.body.description,
@@ -51,7 +51,7 @@ exports.findAllTodo = (req, res) => {
 
 //Get the Todo for a given todo id
 
-exports.findTodoById = (req,res) => {
+exports.findTodoById = (req, res) => {
   const id = req.params.id;
   Todo.findByPk(id, {
     include: [
@@ -62,7 +62,7 @@ exports.findTodoById = (req,res) => {
         through: {
           attributes: [],
         },
-      
+
       },
     ],
   })
@@ -78,7 +78,7 @@ exports.findTodoById = (req,res) => {
 
 //update a todo by the id in request
 
-exports.updateTodo = (req,res) => {
+exports.updateTodo = (req, res) => {
   const id = req.params.id;
   Todo.update(req.body, {
     where: { id: id }
@@ -130,7 +130,7 @@ exports.deleteTodo = (req, res) => {
 
 //create tags
 
-exports.createTag = (req,res) => {
+exports.createTag = (req, res) => {
   Tag.create({
     name: req.body.name,
   })
@@ -149,66 +149,66 @@ exports.createTag = (req,res) => {
 
 //Find all Tags/ where condition: name
 
-exports.findAllTags = (req,res) => {
+exports.findAllTags = (req, res) => {
   const name = req.query.name;
   var condition = name ? { name: { [Op.like]: `%${name}%` } } : null;
 
-Tag.findAll({
-  where: condition,
-  include: [
-    {
-      model: Todo,
-      as: "todos",
-      attributes: ["id", "title", "description", "due_at"],
-      
-      through: {
-        attributes: [],
+  Tag.findAll({
+    where: condition,
+    include: [
+      {
+        model: Todo,
+        as: "todos",
+        attributes: ["id", "title", "description", "due_at"],
+
+        through: {
+          attributes: [],
+        },
+
+
       },
-    
-      
-    },
-  ],
-})
-  .then((tags) => {
-    res.send(tags);
+    ],
   })
-  .catch((err) => {
-    res.status(500).send({
-      message: err.message || "Error occurred while retrieving tags"
+    .then((tags) => {
+      res.send(tags);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error occurred while retrieving tags"
+      });
     });
-  });
 };
 
 //Add a Todo to a Tag
 
 exports.addTodo = (res, req) => {
   const tagId = req.body.tagId;
-  const todoId= req.body.todoId;
+  const todoId = req.body.todoId;
   Tag.findByPk(tagId)
-  .then((tag) => {
-    if (!tag) {
-      res.send({
-        message: "Tag not found!"
-      });
-    }
-  Todo.findByPk(todoId).then((todo) => {
-      if (!todo) {
-        //console.log("Todo not found!");
+    .then((tag) => {
+      if (!tag) {
         res.send({
-          message: "Todo not found!"
+          message: "Tag not found!"
         });
-        
       }
+      Todo.findByPk(todoId).then((todo) => {
+        if (!todo) {
+          //console.log("Todo not found!");
+          res.send({
+            message: "Todo not found!"
+          });
 
-      tag.addTodo(todo);
-      
-      //console.log(`>> added Todo id=${todo.id} to Tag id=${tag.id}`);
-      res.send(tag);
+        }
+
+        tag.addTodo(todo);
+
+        //console.log(`>> added Todo id=${todo.id} to Tag id=${tag.id}`);
+        res.send(tag);
+      });
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || "Error occurred while adding todo to tag"
+      });
     });
-  })
-  .catch((err) => {
-    res.status(500).send({
-      message: err.message || "Error occurred while adding todo to tag"
-    });
-  });
 };
