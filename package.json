@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-sequelize-one-to-many",
+  "name": "todo-app",
   "version": "1.0.0",
   "description": "Node.js Sequelize One to Many Relationship",
   "main": "server.js",
