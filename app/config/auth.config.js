@@ -1,4 +1,3 @@
 module.exports = {
-    secret: "new-secret-key"
-  };
-  
+  secret : 'new-secret-key'
+};
